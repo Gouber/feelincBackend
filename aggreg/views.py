@@ -49,8 +49,8 @@ def index(request):
     if(start_date != '' and end_date != ''):
         start_date_parsed = dateutil.parser.parse(start_date)
         end_date_parsed = dateutil.parser.parse(end_date)
-        print(start_date_parsed)
-        print(end_date_parsed)
+        #print(start_date_parsed)
+        #print(end_date_parsed)
     a = MongoClient("mongodb://127.0.0.1:27017")
     db = a.tweets
     collection = db['tweets_nlp_ed']
@@ -85,19 +85,20 @@ def index(request):
     for key in dates:
         entry = dates[key]
         obj = {}
-        obj["name"] = key
+        obj["name"] = str(datetime.datetime.strptime(key,"%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d"))
         obj["neg"] = entry[-1]
         obj["pos"] = entry[1]
         obj["neutr"] = entry[0]
         data_to_return.append(obj)
 
         second_obj = {}
-        second_obj["name"] = key
+        second_obj["name"] = str(datetime.datetime.strptime(key,"%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d"))
         second_obj["val"] = entry[1] - entry[-1]
         another_data_to_return.append(second_obj)
 
         third_obj = {}
-        third_obj["name"] = key
+        third_obj["name"] = str(datetime.datetime.strptime(key,"%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d"))
+        print(str(key))
         third_obj["val"] = (entry[1] - entry[-1]) * (entry[1] + entry[-1] + entry[0])
         final_thing_to_return.append(third_obj)
 
